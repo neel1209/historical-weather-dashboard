@@ -1,6 +1,7 @@
-export async function getCoordinates(cityName) {
+export async function getCoordinates(cityName, signal) {
     const res = await fetch(
         `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=1`,
+        { signal: signal },
     );
     const data = await res.json();
     if (!data.results || data.results.length === 0) {
@@ -13,9 +14,16 @@ export async function getCoordinates(cityName) {
     };
 }
 
-export async function getWeatherData(latitude, longitude, startDate, endDate) {
+export async function getWeatherData(
+    latitude,
+    longitude,
+    startDate,
+    endDate,
+    signal,
+) {
     const res = await fetch(
         `https://archive-api.open-meteo.com/v1/archive?latitude=${latitude}&longitude=${longitude}&start_date=${startDate}&end_date=${endDate}&daily=relative_humidity_2m_min,relative_humidity_2m_max,temperature_2m_max,temperature_2m_min,wind_speed_10m_min,wind_speed_10m_max&timezone=auto`,
+        { signal: signal },
     );
     const data = await res.json();
 
