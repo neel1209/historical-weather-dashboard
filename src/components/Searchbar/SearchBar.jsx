@@ -1,16 +1,13 @@
 import { useState } from "react";
-const SearchBar = ({ onSearch }) => {
-    const [cityName, setCityName] = useState("Toronto");
-    const [startDate, setStartDate] = useState(
-        new Date(new Date().setDate(new Date().getDate() - 30))
-            .toISOString()
-            .split("T")[0],
-    );
-    const [endDate, setEndDate] = useState(
-        new Date(new Date().setDate(new Date().getDate() - 15))
-            .toISOString()
-            .split("T")[0],
-    );
+const SearchBar = ({
+    onSearch,
+    defaultCityName,
+    defaultStartDate,
+    defaultEndDate,
+}) => {
+    const [cityName, setCityName] = useState(defaultCityName);
+    const [startDate, setStartDate] = useState(defaultStartDate);
+    const [endDate, setEndDate] = useState(defaultEndDate);
 
     const handleSubmit = () => {
         onSearch(cityName, startDate, endDate);
