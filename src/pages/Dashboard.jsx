@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useWeather from "../hooks/useWeather";
 import SearchBar from "../components/Searchbar/SearchBar";
-import { dataFormatter } from "../utils/formatters";
+import { dataFormatter, formatDate } from "../utils/formatters";
 import StatCard from "../components/StatCard/StatCard";
 import LoadingSpinner from "../components/LoadingSpinner/LoadingSpinner";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
@@ -26,27 +26,23 @@ const Dashboard = () => {
         setStartDate(newStart);
         setEndDate(newEnd);
     };
-    if (loading) return <LoadingSpinner />;
-    if (error) return <ErrorMessage error={error} />;
-    if (!data) return null;
 
-    const temperatureFormatedData = dataFormatter(
-        data.dateRange,
-        data.maxTemperature,
-        data.minTemperature,
-    );
+    const temperatureFormatedData = data
+        ? dataFormatter(
+              data.dateRange,
+              data.maxTemperature,
+              data.minTemperature,
+          )
+        : [];
 
-    const windSpeedFormatedData = dataFormatter(
-        data.dateRange,
-        data.maxWindSpeed,
-        data.minWindSpeed,
-    );
+    const windSpeedFormatedData = data
+        ? dataFormatter(data.dateRange, data.maxWindSpeed, data.minWindSpeed)
+        : [];
 
-    const humidityFormatedData = dataFormatter(
-        data.dateRange,
-        data.maxHumidity,
-        data.minHumidity,
-    );
+    const humidityFormatedData = data
+        ? dataFormatter(data.dateRange, data.maxHumidity, data.minHumidity)
+        : [];
+
     return (
         <>
             <SearchBar
@@ -55,40 +51,56 @@ const Dashboard = () => {
                 defaultStartDate={startDate}
                 defaultEndDate={endDate}
             />
-            <WeatherChart
-                data={temperatureFormatedData}
-                title="Temperature"
-                unit="°C"
-            />
-            <WeatherChart
-                data={windSpeedFormatedData}
-                title="Wind Speed"
-                unit="km/h"
-            />
-            <WeatherChart
-                data={humidityFormatedData}
-                title="Humidity"
-                unit="%"
-            />
-            <StatCard
-                label="Temperature"
-                min={Math.min(...data.minTemperature)}
-                max={Math.max(...data.maxTemperature)}
-                unit="°C"
-            />
+            {loading ? (
+                <LoadingSpinner />
+            ) : error ? (
+                <ErrorMessage error={error} />
+            ) : !data ? null : (
+                <div>
+                    <h2>
+                        {data.cityName}
+                        {data.stateName && `, ${data.stateName}`}
+                        {`, ${data.countryName}`}
+                        {` - `}
+                        {formatDate(data.dateRange[0])} {` to `}
+                        {formatDate(data.dateRange[data.dateRange.length - 1])}
+                    </h2>
+                    <WeatherChart
+                        data={temperatureFormatedData}
+                        title="Temperature"
+                        unit="°C"
+                    />
+                    <WeatherChart
+                        data={windSpeedFormatedData}
+                        title="Wind Speed"
+                        unit="km/h"
+                    />
+                    <WeatherChart
+                        data={humidityFormatedData}
+                        title="Humidity"
+                        unit="%"
+                    />
+                    <StatCard
+                        label="Temperature"
+                        min={Math.min(...data.minTemperature)}
+                        max={Math.max(...data.maxTemperature)}
+                        unit="°C"
+                    />
 
-            <StatCard
-                label="Wind Speed"
-                min={Math.min(...data.minWindSpeed)}
-                max={Math.max(...data.maxWindSpeed)}
-                unit="km/h"
-            />
-            <StatCard
-                label="Humidity"
-                min={Math.min(...data.minHumidity)}
-                max={Math.max(...data.maxHumidity)}
-                unit="%"
-            />
+                    <StatCard
+                        label="Wind Speed"
+                        min={Math.min(...data.minWindSpeed)}
+                        max={Math.max(...data.maxWindSpeed)}
+                        unit="km/h"
+                    />
+                    <StatCard
+                        label="Humidity"
+                        min={Math.min(...data.minHumidity)}
+                        max={Math.max(...data.maxHumidity)}
+                        unit="%"
+                    />
+                </div>
+            )}
         </>
     );
 };

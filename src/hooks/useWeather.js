@@ -21,7 +21,12 @@ export default function useWeather(cityName, startDate, endDate) {
                     controller.signal,
                 );
                 if (fetchedData) {
-                    setData(fetchedData);
+                    setData({
+                        ...fetchedData,
+                        cityName: res.name,
+                        stateName: res.state,
+                        countryName: res.country,
+                    });
                     setLoading(false);
                 }
             } catch (err) {

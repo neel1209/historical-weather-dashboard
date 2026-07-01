@@ -9,6 +9,8 @@ export async function getCoordinates(cityName, signal) {
     }
     return {
         name: data.results[0].name,
+        country: data.results[0].country,
+        state: data.results[0].admin1,
         latitude: data.results[0].latitude,
         longitude: data.results[0].longitude,
     };
