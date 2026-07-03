@@ -69,16 +69,22 @@ const Dashboard = () => {
                         data={temperatureFormatedData}
                         title="Temperature"
                         unit="°C"
+                        maxColor="var(--color-temp-max)"
+                        minColor="var(--color-temp-min)"
                     />
                     <WeatherChart
                         data={windSpeedFormatedData}
                         title="Wind Speed"
                         unit="km/h"
+                        maxColor="var(--color-wind-max)"
+                        minColor="var(--color-wind-min)"
                     />
                     <WeatherChart
                         data={humidityFormatedData}
                         title="Humidity"
                         unit="%"
+                        maxColor="var(--color-humidity-max)"
+                        minColor="var(--color-humidity-min)"
                     />
                     <StatCard
                         label="Temperature"

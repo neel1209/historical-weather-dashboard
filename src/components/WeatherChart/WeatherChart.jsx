@@ -8,11 +8,12 @@ import {
     ResponsiveContainer,
     Legend,
 } from "recharts";
+import styles from "./WeatherChart.module.css";
 
-const WeatherChart = ({ data, title, unit }) => {
+const WeatherChart = ({ data, title, unit, minColor, maxColor }) => {
     return (
-        <>
-            <h3>{title}</h3>
+        <div className={styles.card}>
+            <h3 className={styles.title}>{title}</h3>
             <ResponsiveContainer width="100%" aspect={1.618} maxHeight={500}>
                 <LineChart
                     responsive
@@ -43,7 +44,7 @@ const WeatherChart = ({ data, title, unit }) => {
                     <Line
                         type="monotone"
                         dataKey="max"
-                        stroke="var(--color-chart-1)"
+                        stroke={maxColor}
                         dot={{
                             fill: "var(--color-surface-base)",
                         }}
@@ -55,7 +56,7 @@ const WeatherChart = ({ data, title, unit }) => {
                     <Line
                         type="monotone"
                         dataKey="min"
-                        stroke="var(--color-chart-2)"
+                        stroke={minColor}
                         dot={{
                             fill: "var(--color-surface-base)",
                         }}
@@ -63,7 +64,7 @@ const WeatherChart = ({ data, title, unit }) => {
                     />
                 </LineChart>
             </ResponsiveContainer>
-        </>
+        </div>
     );
 };
 

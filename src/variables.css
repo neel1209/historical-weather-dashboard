@@ -1,0 +1,21 @@
+:root {
+    /* base colors  */
+    --color-surface-base: #ffffff;
+    --color-surface-raised: #f8f9fa;
+    --color-border-2: #e5e7eb;
+    --color-border-3: #d1d5db;
+    --color-text-3: #374151;
+    --color-accent: #2563eb;
+    --color-accent-hover: #1d4ed8;
+    --color-error: #dc2626;
+    --color-error-bg: #fef2f2;
+    --color-error-border: #fecaca;
+
+    /* Chart Colors */
+    --color-temp-max: #e85d3d;
+    --color-temp-min: #f4a261;
+    --color-humidity-max: #2563eb;
+    --color-humidity-min: #93c5fd;
+    --color-wind-max: #0d9488;
+    --color-wind-min: #5eead4;
+}
