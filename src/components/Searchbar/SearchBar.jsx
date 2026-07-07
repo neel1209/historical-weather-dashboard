@@ -10,9 +10,24 @@ const SearchBar = ({
     const [cityName, setCityName] = useState(defaultCityName);
     const [startDate, setStartDate] = useState(defaultStartDate);
     const [endDate, setEndDate] = useState(defaultEndDate);
+    const [error, setError] = useState(null);
 
     const handleSubmit = () => {
-        onSearch(cityName, startDate, endDate);
+        const startDateObj = new Date(startDate);
+        const endDateObj = new Date(endDate);
+        const differenceOfDay = (endDateObj - startDateObj) / 86400000;
+        if (startDateObj > endDateObj && differenceOfDay > 30) {
+            setError(
+                "End date should be after start date & date range should not exceed 30 days",
+            );
+        } else if (startDateObj > endDateObj) {
+            setError("End date should be after start date");
+        } else if (differenceOfDay > 30) {
+            setError("Date range should not exceed 30 days");
+        } else {
+            setError(null);
+            onSearch(cityName, startDate, endDate);
+        }
     };
     return (
         <div className={styles.searchBar}>
@@ -52,6 +67,8 @@ const SearchBar = ({
                 onClick={handleSubmit}
                 className={styles.submitButton}
             />
+
+            {error && <div className={styles.error}>{error}</div>}
         </div>
     );
 };
